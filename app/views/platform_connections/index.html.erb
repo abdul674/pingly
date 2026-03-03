@@ -1,0 +1,41 @@
+<div class="max-w-4xl">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Connections</h1>
+    <%= link_to "Add Connection", new_platform_connection_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 transition" %>
+  </div>
+
+  <% if @connections.empty? %>
+    <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+      <p class="text-gray-500 mb-4">No platform connections yet.</p>
+      <%= link_to "Connect Slack", new_platform_connection_path, class: "text-indigo-600 hover:text-indigo-800 font-medium text-sm" %>
+    </div>
+  <% else %>
+    <div class="space-y-3">
+      <% @connections.each do |conn| %>
+        <div class="bg-white rounded-xl border border-gray-200 p-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="text-gray-600"><%= platform_icon(conn.platform) %></div>
+              <div>
+                <h3 class="font-medium text-gray-900"><%= conn.workspace_name || conn.platform.capitalize %></h3>
+                <p class="text-xs text-gray-500">
+                  <%= conn.connection_method.capitalize %> &middot;
+                  <%= conn.sources.count %> channel<%= conn.sources.count == 1 ? '' : 's' %> &middot;
+                  <span class="<%= conn.active? ? 'text-green-600' : 'text-gray-400' %>">
+                    <%= conn.active? ? 'Active' : 'Inactive' %>
+                  </span>
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <%= link_to "Channels", platform_connection_sources_path(conn), class: "px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition" %>
+              <%= button_to conn.active? ? "Deactivate" : "Activate", toggle_platform_connection_path(conn), method: :patch, class: "px-3 py-1.5 text-sm font-medium rounded-lg transition #{conn.active? ? 'text-amber-700 bg-amber-50 hover:bg-amber-100' : 'text-green-700 bg-green-50 hover:bg-green-100'}" %>
+              <%= link_to "Edit", edit_platform_connection_path(conn), class: "px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

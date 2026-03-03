@@ -1,0 +1,25 @@
+<div class="max-w-4xl">
+  <div class="mb-4">
+    <%= link_to "Back to #{@connection.workspace_name || 'Connection'}", platform_connection_path(@connection), class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-gray-900">Channels</h1>
+    <p class="text-sm text-gray-500"><%= @sources.sum { |s| s.monitored? ? 1 : 0 } %> monitored</p>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200" data-controller="channel-tree">
+    <% @sources.each do |source| %>
+      <%= render "sources/source_row", source: source %>
+      <% source.children.order(:name).each do |child| %>
+        <%= render "sources/source_row", source: child, nested: true %>
+      <% end %>
+    <% end %>
+
+    <% if @sources.empty? %>
+      <div class="p-6 text-center text-sm text-gray-500">
+        No channels found. Try syncing your connection.
+      </div>
+    <% end %>
+  </div>
+</div>

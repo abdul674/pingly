@@ -1,0 +1,56 @@
+<div class="max-w-3xl">
+  <div class="mb-4">
+    <%= link_to "Back", :back, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="flex items-start gap-4 mb-4">
+      <% if @message.sender_avatar.present? %>
+        <img src="<%= @message.sender_avatar %>" class="w-10 h-10 rounded-full" alt="<%= @message.sender_name %>">
+      <% else %>
+        <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+          <span class="text-sm font-medium text-gray-600"><%= @message.sender_name&.first&.upcase || "?" %></span>
+        </div>
+      <% end %>
+
+      <div class="flex-1">
+        <div class="flex items-center gap-2">
+          <h2 class="font-semibold text-gray-900"><%= @message.sender_name || "Unknown" %></h2>
+          <%= status_badge(@message.status) %>
+          <% if @message.mentioned? %>
+            <span class="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">@you</span>
+          <% end %>
+        </div>
+        <p class="text-sm text-gray-500">
+          #<%= @message.source&.name %> &middot; <%= @message.received_at&.strftime("%b %d, %Y at %I:%M %p") %>
+        </p>
+      </div>
+    </div>
+
+    <div class="prose prose-sm max-w-none text-gray-700 mb-4">
+      <%= simple_format(@message.content) %>
+    </div>
+
+    <% if @message.categories.any? %>
+      <div class="flex items-center gap-2 mb-4">
+        <% @message.categories.each do |cat| %>
+          <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium text-white" style="background-color: <%= cat.color %>">
+            <%= cat.name %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="flex items-center gap-2 pt-4 border-t border-gray-100">
+      <% if @message.status != "done" %>
+        <%= button_to "Mark Done", mark_done_message_path(@message), method: :patch, class: "px-3 py-1.5 text-sm font-medium rounded-lg bg-green-50 text-green-700 hover:bg-green-100 transition" %>
+      <% end %>
+      <% if @message.status == "snoozed" %>
+        <%= button_to "Unsnooze", unsnooze_message_path(@message), method: :patch, class: "px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100 transition" %>
+      <% end %>
+      <% if @message.deep_link.present? %>
+        <%= link_to "Open in Slack", @message.deep_link, target: "_blank", rel: "noopener", class: "px-3 py-1.5 text-sm font-medium rounded-lg bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition" %>
+      <% end %>
+    </div>
+  </div>
+</div>

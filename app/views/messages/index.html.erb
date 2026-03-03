@@ -1,0 +1,25 @@
+<div class="max-w-6xl">
+  <div class="flex items-center justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">
+        <% if params[:status].present? %>
+          <%= params[:status].capitalize %> Messages
+        <% else %>
+          All Messages
+        <% end %>
+      </h1>
+    </div>
+  </div>
+
+  <div id="messages" class="space-y-2">
+    <% @messages.each do |message| %>
+      <%= render "messages/message_card", message: message %>
+    <% end %>
+
+    <% if @messages.empty? %>
+      <div class="bg-white rounded-xl border border-gray-200 p-12 text-center">
+        <p class="text-gray-500">No messages found.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

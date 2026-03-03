@@ -1,0 +1,36 @@
+<div class="max-w-4xl">
+  <div class="mb-4">
+    <%= link_to "Back to Connections", platform_connections_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+
+  <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <div class="text-gray-600"><%= platform_icon(@connection.platform) %></div>
+      <div>
+        <h1 class="text-xl font-bold text-gray-900"><%= @connection.workspace_name || @connection.platform.capitalize %></h1>
+        <p class="text-sm text-gray-500">
+          <%= @connection.connection_method.capitalize %> connection &middot;
+          <span class="<%= @connection.active? ? 'text-green-600' : 'text-red-500' %>">
+            <%= @connection.active? ? 'Active' : 'Inactive' %>
+          </span>
+        </p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <%= link_to "Edit", edit_platform_connection_path(@connection), class: "px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition" %>
+      <%= link_to "Manage Channels", platform_connection_sources_path(@connection), class: "px-3 py-1.5 text-sm font-medium text-indigo-700 bg-indigo-50 rounded-lg hover:bg-indigo-100 transition" %>
+    </div>
+  </div>
+
+  <h2 class="text-lg font-semibold text-gray-900 mb-3">Channels (<%= @sources.count %>)</h2>
+  <div class="bg-white rounded-xl border border-gray-200 divide-y divide-gray-200">
+    <% @sources.each do |source| %>
+      <%= render "sources/source_row", source: source %>
+    <% end %>
+
+    <% if @sources.empty? %>
+      <div class="p-6 text-center text-sm text-gray-500">No channels synced yet.</div>
+    <% end %>
+  </div>
+</div>

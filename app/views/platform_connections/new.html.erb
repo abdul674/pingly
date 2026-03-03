@@ -1,0 +1,31 @@
+<div class="max-w-2xl">
+  <div class="mb-4">
+    <%= link_to "Back to Connections", platform_connections_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+  </div>
+
+  <h1 class="text-2xl font-bold text-gray-900 mb-6">New Connection</h1>
+
+  <!-- OAuth Option -->
+  <% if Rails.application.credentials.dig(:slack, :client_id).present? %>
+    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
+      <h2 class="text-lg font-semibold text-gray-900 mb-2">Connect with OAuth (Recommended)</h2>
+      <p class="text-sm text-gray-500 mb-4">Authorize Pingly to access your Slack workspace with one click.</p>
+      <%= link_to oauth_slack_install_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-[#4A154B] text-white text-sm font-medium rounded-lg hover:bg-[#3a1039] transition" do %>
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/></svg>
+        Add to Slack
+      <% end %>
+    </div>
+
+    <div class="relative mb-6">
+      <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-200"></div></div>
+      <div class="relative flex justify-center text-sm"><span class="bg-gray-50 px-4 text-gray-500">or connect manually</span></div>
+    </div>
+  <% end %>
+
+  <!-- Manual Token Form -->
+  <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-2">Manual Setup</h2>
+    <p class="text-sm text-gray-500 mb-4">Paste your Bot User OAuth Token directly.</p>
+    <%= render "platform_connections/form", connection: @connection %>
+  </div>
+</div>
