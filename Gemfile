@@ -41,7 +41,7 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 # Slack API client for Web API + Socket Mode
-gem "slack-ruby-client", "~> 2.3"
+gem "slack-ruby-client", "~> 3.1"
 # WebSocket client for Slack Socket Mode
 gem "faye-websocket"
 # Gmail API client
