@@ -5,15 +5,30 @@
 
   <h1 class="text-2xl font-bold text-gray-900 mb-6">New Connection</h1>
 
-  <!-- OAuth Option -->
-  <% if Rails.application.credentials.dig(:slack, :client_id).present? %>
+  <!-- OAuth Options -->
+  <% slack_configured = Rails.application.credentials.dig(:slack, :client_id).present? %>
+  <% gmail_configured = Rails.application.credentials.dig(:google, :client_id).present? %>
+
+  <% if slack_configured || gmail_configured %>
     <div class="bg-white rounded-xl border border-gray-200 p-6 mb-6">
       <h2 class="text-lg font-semibold text-gray-900 mb-2">Connect with OAuth (Recommended)</h2>
-      <p class="text-sm text-gray-500 mb-4">Authorize Pingly to access your Slack workspace with one click.</p>
-      <%= link_to oauth_slack_install_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-[#4A154B] text-white text-sm font-medium rounded-lg hover:bg-[#3a1039] transition" do %>
-        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/></svg>
-        Add to Slack
-      <% end %>
+      <p class="text-sm text-gray-500 mb-4">Authorize Pingly to access your accounts with one click.</p>
+
+      <div class="flex flex-col gap-3">
+        <% if slack_configured %>
+          <%= link_to oauth_slack_install_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-[#4A154B] text-white text-sm font-medium rounded-lg hover:bg-[#3a1039] transition" do %>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313z"/></svg>
+            Add to Slack
+          <% end %>
+        <% end %>
+
+        <% if gmail_configured %>
+          <%= link_to oauth_gmail_install_path, class: "inline-flex items-center gap-2 px-4 py-2 bg-white text-gray-700 text-sm font-medium rounded-lg border border-gray-300 hover:bg-gray-50 transition" do %>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+            Connect Gmail
+          <% end %>
+        <% end %>
+      </div>
     </div>
 
     <div class="relative mb-6">

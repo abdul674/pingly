@@ -3,6 +3,10 @@ default: &default
     class: SlackPollingJob
     queue: default
     schedule: every 5 minutes
+  gmail_polling:
+    class: GmailPollingJob
+    queue: default
+    schedule: every 5 minutes
   unsnooze_messages:
     class: UnsnoozeMessagesJob
     queue: default

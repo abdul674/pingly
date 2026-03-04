@@ -44,6 +44,8 @@ gem "image_processing", "~> 1.2"
 gem "slack-ruby-client", "~> 2.3"
 # WebSocket client for Slack Socket Mode
 gem "faye-websocket"
+# Gmail API client
+gem "google-apis-gmail_v1"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

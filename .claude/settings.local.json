@@ -3,7 +3,12 @@
     "allow": [
       "Bash(bin/rails generate:*)",
       "Bash(bin/rails db:migrate:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "WebSearch",
+      "WebFetch(domain:developers.google.com)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   namespace :oauth do
     get "slack/callback", to: "slack#callback"
     get "slack/install", to: "slack#install"
+    get "gmail/callback", to: "gmail#callback"
+    get "gmail/install", to: "gmail#install"
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

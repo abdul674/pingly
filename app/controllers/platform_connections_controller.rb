@@ -19,7 +19,8 @@ class PlatformConnectionsController < ApplicationController
 
     if @connection.save
       SlackSyncSourcesJob.perform_later(@connection.id) if @connection.platform == "slack"
-      redirect_to platform_connection_path(@connection), notice: "Connection created. Syncing channels..."
+      GmailSyncSourcesJob.perform_later(@connection.id) if @connection.platform == "gmail"
+      redirect_to platform_connection_path(@connection), notice: "Connection created. Syncing sources..."
     else
       render :new, status: :unprocessable_entity
     end
